@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+
+<body>
+
+    <div id="principal">
+        <p>First Name: <input data-bind="value: firstName"></input></p>
+        <p>Last Name: <input data-bind="value: lastName"></input></p>
+        <p>Refeição: <select data-bind="options: availableMeals,
+           value : selectedMeal, optionsText : 'mealName'
+            
+            ">
+        </select></p>
+
+        <p>FullName: <strong data-bind="text: fullName"></strong></p>
+
+        <button data-bind="click: addSeat, enable: seats().length < 5">Reserve another seat</button>
+        <h2> Reservas de assento</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome do Passageiro</th>
+                    <th>Refeição</th>
+                    <th>Valor</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: seats">
+
+                <tr>
+                    <td data-bind="text: name"></td>
+                    <td><select data-bind="options: availableMeals, value: meal, optionsText: 'mealName'"></select></td>
+                    <td data-bind="text: formattedPrice"></td>
+                    <td><a href="#" data-bind="click: removeSeat">Remover</a></td>
+
+                    
+                </tr>
+            </tbody>
+        </table>
+        <h3 data-bind="visible: totalSurcharge() > 0">
+            Total surcharge: $<span data-bind="text: totalSurcharge().toFixed(2)"></span>
+                    
+        </h3>
+        <h2>Your seat reservations (<span data-bind="text: seats().length"></span>)</h2>
+
+    </div>
+
+
+
+</body>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+<script type="text/javascript" src='index.js'></script>
+
+</html>
