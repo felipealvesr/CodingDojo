@@ -7,57 +7,121 @@
     <title>Page Title</title>
 
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+
 </head>
 
 <body>
 
     <div id="principal">
-        <p>First Name: <input data-bind="value: firstName"></input></p>
-        <p>Last Name: <input data-bind="value: lastName"></input></p>
-        <p>Refeição: <select data-bind="options: availableMeals,
+
+        <section id="oldSection">
+
+            <p>First Name: <input data-bind="value: firstName"></input></p>
+            <p>Last Name: <input data-bind="value: lastName"></input></p>
+            <p>Categoria: <select data-bind="options: availableMeals,
            value : selectedMeal, optionsText : 'mealName'
             
             ">
-        </select></p>
-
-        <p>FullName: <strong data-bind="text: fullName"></strong></p>
-
-        <button data-bind="click: addSeat, enable: seats().length < 5">Reserve another seat</button>
-        <h2> Reservas de assento</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome do Passageiro</th>
-                    <th>Refeição</th>
-                    <th>Valor</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: seats">
-
-                <tr>
-                    <td data-bind="text: name"></td>
-                    <td><select data-bind="options: availableMeals, value: meal, optionsText: 'mealName'"></select></td>
-                    <td data-bind="text: formattedPrice"></td>
-                    <td><a href="#" data-bind="click: removeSeat">Remover</a></td>
-
+                </select></p>
+            <p>Refeição: <select data-bind="options: availableFoods,
+                value : selectedFood, optionsText : 'mealName'
                     
-                </tr>
-            </tbody>
-        </table>
-        <h3 data-bind="visible: totalSurcharge() > 0">
-            Total surcharge: $<span data-bind="text: totalSurcharge().toFixed(2)"></span>
-                    
-        </h3>
-        <h2>Your seat reservations (<span data-bind="text: seats().length"></span>)</h2>
+                    ">
+                        </select></p>
 
+            <p>FullName: <strong data-bind="text: fullName"></strong></p>
+
+            <button data-bind="click: addSeat, enable: seats().length < 5">Reserve another seat</button>
+            <h2> Reservas de assento</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome do Passageiro</th>
+                        <th>Categoria</th>
+                        <th>Valor</th>  
+                        <th>Refeição</th>
+                        <th></th>
+                        
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: seats">
+
+                    <tr>
+                        <td data-bind="text: name"></td>
+                        <td><select data-bind="options: availableMeals, value: meal, optionsText: 'mealName'"></select>
+                        </td>
+                        <td data-bind="text: formattedPrice"></td>
+                        <td></td>
+                        <td><button href="#" data-bind="click: removeSeat">Remover</button></td>
+                        
+
+
+                    </tr>
+                </tbody>
+            </table>
+            <h3 data-bind="visible: totalSurcharge() > 0">
+                Total surcharge: $<span data-bind="text: totalSurcharge().toFixed(2)"></span>
+
+            </h3>
+            <h2>Your seat reservations (<span data-bind="text: seats().length"></span>)</h2>
+
+        </section>
+
+        <section id="questionarioSection">
+
+            <h3 data-bind="text: question"></h3>
+            <p>Por favor distribua <b data-bind="text: pointsBudget"></b> pontos entre as seguintes opções:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Opção</th>
+                        <th>Relevância</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: answers">
+                    <tr>
+                        <td data-bind="text: answerText"></td>
+                        <td>
+                            <select data-bind="options: [1,2,3,4,5], value: points"></select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 data-bind="visible: pointsUsed() > pointsBudget()"> <p>Você usou muitos pontos, por favor remova alguns!</p>
+            </h3>
+            <p>Você ainda tem <b data-bind="text: pointsBudget() - pointsUsed()"></b> pontos restantes</p>
+            <button data-bind="enable: pointsUsed() <=  pointsBudget(), click: save">Finalizado</button>
+        </section>
+
+        <section id="todo" >
+            <h3>tasks</h3>
+
+            <form data-bind="submit: addTask" >
+                Add Task > <input type="text" data-bind="value: newTaskText" placeholder="what needs to be done?" />
+
+                <button type="submit" >Add</button>
+            </form>
+
+            <ul data-bind="foreach: tasks, visible: tasks().length > 0" >
+                <li>
+                    <input type="checkbox" data-bind="checked: isDone">
+                    <input data-bind="value: title, disable: isDone">
+                    <a href="#" data-bind="click: removeTask">Delete</a>
+                </li>
+            </ul>
+            You have <b data-bind="text: incompleteTasks().length">&nbsp;</b> incomplete task(s)
+            <span data-bind="visible: incompleteTasks().length == 0"> - Hora da cervejinha</span>
+        </section>
     </div>
 
 
 
 </body>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
 <script type="text/javascript" src='index.js'></script>
+
 
 </html>
